@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'cartItem.dart';
 import 'app_bar.dart';
 
 class ProductDetail extends StatefulWidget {
@@ -63,7 +65,6 @@ class _ProductDetailState extends State<ProductDetail> {
                     child: IconButton(
                       icon: Icon(Icons.arrow_back_outlined),
                       onPressed: () {
-                        // Close the product detail screen
                         Navigator.pop(context);
                       },
                     ),
@@ -81,7 +82,7 @@ class _ProductDetailState extends State<ProductDetail> {
                         color: Colors.grey.withOpacity(0.2),
                         spreadRadius: 3,
                         blurRadius: 5,
-                        offset: Offset(0, 3), // changes position of shadow
+                        offset: Offset(0, 3),
                       ),
                     ],
                   ),
@@ -94,8 +95,12 @@ class _ProductDetailState extends State<ProductDetail> {
                       ),
                       SizedBox(height: 10),
                       Text(
-                        'Now: \$ ${widget.price.toStringAsFixed(2)} /lb',
-                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.green[700]),
+                        'Now: \$${widget.price.toStringAsFixed(2)} /lb',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green[700],
+                        ),
                       ),
                       SizedBox(height: 20),
                       Center(
@@ -143,18 +148,26 @@ class _ProductDetailState extends State<ProductDetail> {
                               onPressed: _incrementQuantity,
                               color: Colors.black,
                             ),
-                            SizedBox(width: 20), // Add padding here
+                            SizedBox(width: 20),
                             ElevatedButton(
                               onPressed: () {
-                                // Handle add to cart action
+                                final cartItem = CartItem(
+                                  name: widget.name,
+                                  price: widget.price,
+                                  quantity: _quantity,
+                                  imageUrl: widget.image,
+                                );
+
+                                Provider.of<CartModel>(context, listen: false).addItem(cartItem);
+
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                   content: Text('${widget.name} added to cart with quantity $_quantity'),
                                 ));
                               },
                               child: Text('Add to Cart'),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.black, // Background color
-                                foregroundColor: Colors.white, // Text color
+                                backgroundColor: Colors.black,
+                                foregroundColor: Colors.white,
                               ),
                             ),
                           ],

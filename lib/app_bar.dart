@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'products.dart';
+import 'cartPage.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -36,7 +37,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           icon: Icon(Icons.shopping_cart),
           color: Colors.white,
           onPressed: () {
-            // Handle cart icon press
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CartPage()), // Adjust the route as needed
+            );
           },
         ),
       ],
